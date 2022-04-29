@@ -10,11 +10,12 @@ count=0
 correctA=0
 answers=[]
 answer_dict={}
+answCount=0
 
 #func --------------------------------------------
 
 def btnClick(btn, number):
-    global count, correctA, answers, answer_dict
+    global count, correctA, answers, answer_dict, answCount
     if btn["image"]=="pyimage1" and count <2:
         btn["image"]=imageList[number]
         count+=1
@@ -24,7 +25,23 @@ def btnClick(btn, number):
         if imageList[answers[0]]==imageList[answers[1]]:
             for key in answer_dict:
                 key["state"]=DISABLED
-                correctA+=1
+            correctA+=2
+            if correctA==2:
+                #messagebox.showinfo("MemoryPy", "Uzminēji")
+                correctA=0
+                answCount+=1
+        else:
+            messagebox.showinfo("MemoryPy", "Neuzminēji")
+            for key in answer_dict:
+                key["image"]="pyimage1"
+        count=0
+        answers=[]
+        answer_dict={}
+
+    if answCount==6:
+        messagebox.showinfo("MemoryPy", "Tu uzvarēji!!! New game?")
+        answCount=0
+
 
     return 0
     
