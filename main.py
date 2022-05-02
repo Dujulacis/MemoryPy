@@ -3,6 +3,7 @@ from tkinter import*
 from PIL import ImageTk, Image
 import random
 from tkinter import messagebox
+import time
 mW=Tk()
 mW.title("MemoryPy")
 
@@ -27,11 +28,11 @@ def btnClick(btn, number):
                 key["state"]=DISABLED
             correctA+=2
             if correctA==2:
-                #messagebox.showinfo("MemoryPy", "Uzminēji")
                 correctA=0
                 answCount+=1
         else:
-            messagebox.showinfo("MemoryPy", "Neuzminēji")
+            Tk.update(btn)
+            time.sleep(0.5)
             for key in answer_dict:
                 key["image"]="pyimage1"
         count=0
@@ -39,13 +40,47 @@ def btnClick(btn, number):
         answer_dict={}
 
     if answCount==6:
-        messagebox.showinfo("MemoryPy", "Tu uzvarēji!!! New game?")
-        answCount=0
-
-
+        end = messagebox.askyesno("MemoryPy", "You won! New Game?")
+        if end == True:
+            reset()
+        else:
+            quit()
+        
     return 0
     
+def reset():
+    global count, correctA, answers, answer_dict, answCount
+    count=0
+    correctA=0
+    answers=[]
+    answer_dict={}
+    answCount=0
+    btn0.config(state=NORMAL, image=bgImg)
+    btn1.config(state=NORMAL, image=bgImg)
+    btn2.config(state=NORMAL, image=bgImg)
+    btn3.config(state=NORMAL, image=bgImg)
+    btn4.config(state=NORMAL, image=bgImg)
+    btn5.config(state=NORMAL, image=bgImg)
+    btn6.config(state=NORMAL, image=bgImg)
+    btn7.config(state=NORMAL, image=bgImg)
+    btn8.config(state=NORMAL, image=bgImg)
+    btn9.config(state=NORMAL, image=bgImg)
+    btn10.config(state=NORMAL, image=bgImg)
+    btn11.config(state=NORMAL, image=bgImg)
+    random.shuffle(imageList)
 
+
+def aboutGame():
+    newWindow=Toplevel()
+    newWindow.title('About the game')
+    newWindow.geometry("300x300")
+    title=Label(newWindow, text="MemoryPy", font=("Helvetica 18 bold", 23))
+    desc=Label(newWindow, text="Choose any card. Find the second matching card. If you guess all pairs, you win!", wraplength=300, justify="left", font=(18))
+    credits=Label(newWindow, text="Made by duja", font=(16))
+    title.grid(row=0, column=0)
+    desc.grid(row=1,column=0)
+    credits.grid(row=2, column=0)
+    return 0    
 
 #images ------------------------------------------
 
@@ -59,6 +94,7 @@ gImg6=ImageTk.PhotoImage(Image.open("img/6.png"). resize((200, 350), Image.Resam
 
 imageList=[gImg1, gImg1, gImg2, gImg2, gImg3, gImg3, gImg4, gImg4, gImg5, gImg5, gImg6, gImg6]
 random.shuffle(imageList)
+
 #buttons ------------------------------------------
 
 btn0=Button(mW, width=200, height=350, image=bgImg, command=lambda:btnClick(btn0, 0))
@@ -96,6 +132,12 @@ mW.grid_columnconfigure(5, weight=1)
 mW.grid_rowconfigure(0, weight=1)
 mW.grid_rowconfigure(1, weight=1)
 
-
+galvenaIzvelne=Menu(mW)
+mW.config(menu=galvenaIzvelne)
+options=Menu(galvenaIzvelne,tearoff=False)
+galvenaIzvelne.add_cascade(label="Options", menu=options)
+options.add_command(label="New Game", command=reset)
+options.add_command(label="Exit", command=mW.quit)
+galvenaIzvelne.add_command(label="About the game",command=aboutGame)
 
 mW.mainloop()
