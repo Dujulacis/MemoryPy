@@ -4,6 +4,7 @@ from PIL import ImageTk, Image
 import random
 from tkinter import messagebox
 import time
+import webbrowser
 mW=Tk()
 mW.title("MemoryPy")
 
@@ -69,17 +70,23 @@ def reset():
     btn11.config(state=NORMAL, image=bgImg)
     random.shuffle(imageList)
 
+def open_webbrowser():
+    webbrowser.open("https://github.com/Dujulacis") #norada saiti uz manu github
 
 def aboutGame():
     newWindow=Toplevel()
     newWindow.title('About the game')
     newWindow.geometry("300x300")
     title=Label(newWindow, text="MemoryPy", font=("Helvetica 18 bold", 23))
-    desc=Label(newWindow, text="Choose any card. Find the second matching card. If you guess all pairs, you win!", wraplength=300, justify="left", font=(18))
+    desc=Label(newWindow, text="Pokemon Edition", wraplength=300, justify="left", font=(20))
+    desc1=Label(newWindow, text="Choose any card. Find the second matching card. If you guess all pairs, you win!", wraplength=300, justify="left", font=(18))
     credits=Label(newWindow, text="Made by duja", font=(16))
     title.grid(row=0, column=0)
-    desc.grid(row=1,column=0)
-    credits.grid(row=2, column=0)
+    desc.grid(row=1, column=0)
+    desc1.grid(row=2,column=0)
+    credits.grid(row=3, column=0)
+    btn12=Button(newWindow, width=130, height=130, image=gImg7, command=lambda: open_webbrowser()) #atver github saiti, kad noklikskina uz pogas
+    btn12.grid(row=4, column=0)
     return 0    
 
 #images ------------------------------------------
@@ -91,6 +98,7 @@ gImg3=ImageTk.PhotoImage(Image.open("img/3.png"). resize((200, 350), Image.Resam
 gImg4=ImageTk.PhotoImage(Image.open("img/4.png"). resize((200, 350), Image.Resampling.LANCZOS))
 gImg5=ImageTk.PhotoImage(Image.open("img/5.png"). resize((200, 350), Image.Resampling.LANCZOS))
 gImg6=ImageTk.PhotoImage(Image.open("img/6.png"). resize((200, 350), Image.Resampling.LANCZOS))
+gImg7=ImageTk.PhotoImage(Image.open("img/about1.png"). resize((130, 130), Image.Resampling.LANCZOS))
 
 imageList=[gImg1, gImg1, gImg2, gImg2, gImg3, gImg3, gImg4, gImg4, gImg5, gImg5, gImg6, gImg6]
 random.shuffle(imageList)
@@ -131,6 +139,8 @@ mW.grid_columnconfigure(4, weight=1)
 mW.grid_columnconfigure(5, weight=1)
 mW.grid_rowconfigure(0, weight=1)
 mW.grid_rowconfigure(1, weight=1)
+
+#menu ------------------------------------------
 
 galvenaIzvelne=Menu(mW)
 mW.config(menu=galvenaIzvelne)
